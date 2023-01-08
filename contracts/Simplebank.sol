@@ -7,6 +7,7 @@ contract Simplebank {
     uint public numberOfFunders;
     mapping(address => bool) private funders;
     mapping(uint => address) private lutFunders;
+    mapping(address => uint) private lastFundAmount;
     address public owner;
 
     constructor() {
@@ -31,8 +32,8 @@ contract Simplebank {
         uint index = numberOfFunders++;
         funders[funder] = true;
         lutFunders[index] = funder;
-
-       }
+        }
+        lastFundAmount[funder] += msg.value;
     }
     function getAllFunders() external view returns(address[] memory){
         address[] memory _funders = new address[](numberOfFunders);
@@ -57,4 +58,4 @@ contract Simplebank {
 //instance.addFunds({value: "500000000000000000", from: accounts[1]})
 //const funds = instance.funds()
 //instance.getAllFunders()
-//instance.withdraw(1000000000000000000)
+//instance.withdraw("1000000000000000000", {from: accounts[1]})
